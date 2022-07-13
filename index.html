@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+    <title>Cricket Match Scores</title>
+</head>
+<body>
+    <h1>Cricket Live Scores</h1>
+    <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="card bg-success text-warning mt-5 p-4 " style="width:60rem; height:20rem; margin-bottom: 2cm;">
+                <strong></strong><h2 class="matchname"></h2>
+                <div id="fact" class="card-body">
+                    <h6 class="matchtype"></h6>
+                    <h6 class="matchscore"></h6>
+                    <h6 class="matchstatus"></h6>
+                    <h6 class="matchvenue"></h6>
+                </div>
+          </div>
+          <div class="col">
+            <div class="card bg-success text-warning mt-5 p-4" style="width:60rem; height:20rem; margin-bottom: 1cm; position:relative; left:35px;">
+                <h2 class="matchname"></h2>
+                <div id="fact" class="card-body">
+                    <h6 class="matchtype"></h6>
+                    <h6 class="matchscore"></h6>
+                    <h6 class="matchstatus"></h6>
+                    <h6 class="matchvenue"></h6>
+                </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card bg-success text-warning mt-5 p-4" style="width:60rem; height:20rem; margin-bottom: 2cm;">
+                    <h2 class="matchname"></h2>
+                    <div id="fact" class="card-body">
+                        <h6 class="matchtype"></h6>
+                        <h6 class="matchscore"></h6>
+                        <h6 class="matchstatus"></h6>
+                        <h6 class="matchvenue"></h6>
+                    </div>
+              </div>
+              <div class="col">
+                <div class="card bg-success text-warning mt-5 p-4" style="width:60rem; height:20rem; margin-bottom: 2cm;position:relative; left:35px;">
+                    <h2 class="matchname"></h2>
+                    <div id="fact" class="card-body">
+                        <h6 class="matchtype"></h6>
+                        <h6 class="matchscore"></h6>
+                        <h6 class="matchstatus"></h6>
+                        <h6 class="matchvenue"></h6>
+                    </div>
+              </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card bg-success text-warning mt-5 p-4" style="width:60rem; height:20rem; margin-bottom: 2cm;">
+                    <h2 class="matchname"></h2>
+                    <div id="fact" class="card-body">
+                        <h6 class="matchtype"></h6>
+                        <h6 class="matchscore"></h6>
+                        <h6 class="matchstatus"></h6>
+                        <h6 class="matchvenue"></h6>
+                    </div>
+              </div>
+              <div class="col">
+                <div class="card bg-success text-warning mt-5 p-4" style="width:60rem; height:20rem; margin-bottom: 2cm;position:relative; left:35px;">
+                    <h2 class="matchname"></h2>
+                    <div id="fact" class="card-body">
+                        <h6 class="matchtype"></h6>
+                        <h6 class="matchscore"></h6>
+                        <h6 class="matchstatus"></h6>
+                        <h6 class="matchvenue"></h6>
+                    </div>
+              </div>
+        </div>
+      </div>
+      <script type="text/javascript">
+        let matchNames = document.querySelectorAll('.matchname');
+        let date = document.querySelectorAll('.matchtype');
+        let score = document.querySelectorAll('.matchscore');
+        let matchStatuses = document.querySelectorAll('.matchstatus');
+        let venues = document.querySelectorAll('.matchvenue');
+
+
+
+        fetch("https://api.cricapi.com/v1/currentMatches?apikey=5da6a669-5a53-4a57-850c-93dff7bd6724&offset=0").then(response => response.json()).then((data) => {
+                console.log(data.data);
+                for(var i=0;i<6;i++)
+                {
+                    matchNames[i].innerText=data.data[i].name;
+                    var String="";
+                    for(var j=0;j<data.data[i].score.length;j++)
+                    {
+                        String+=JSON.stringify(data.data[i].score[j].inning)+': '+JSON.stringify(data.data[i].score[j].r)+'/'+JSON.stringify(data.data[i].score[j].w) +'('+JSON.stringify(data.data[i].score[j].w)+' overs)';
+                        String+="\n";
+                    }
+                    score[i].innerText= 'Scores:\n'+String;
+                    matchStatuses[i].innerText= 'Status: '+data.data[i].status;
+                    venues[i].innerText = 'Venue: '+data.data[i].venue;
+                    const myarr=data.data[i].dateTimeGMT.split("T");
+                    date[i].innerText='Date: '+myarr[0]+"\nTime: "+myarr[1];
+                }
+        });
+      </script>
+</body>
+</html>
